@@ -1,0 +1,5 @@
+# Add all dependencies used within this file, specify version if need be with == ot >=
+streamlit
+pandas
+numpy
+matplotlib

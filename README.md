@@ -63,6 +63,9 @@ git commit -m "Your commit message"
 git push origin dev
 ```
 
+### Use Git Conventional Commits Messages
+You can familiarise yourself with using them using this [cheatsheet](https://gist.github.com/qoomon/5dfcdf8eec66a051ecd85625518cfd13).
+
 ### Pull Requests
 - Ensure all changes are reviewed and tested before merging into `main`.
 - Create a pull request targeting the `main` branch from the `dev` branch.

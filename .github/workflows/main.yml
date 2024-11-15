@@ -23,8 +23,8 @@ jobs:
       uses: conda-incubator/setup-miniconda@v2
       with:
         miniforge-version: latest
-        environment-file: environment.yml
-        activate-environment: daps-hackathon
+        environment-file: env/environment.yml
+        activate-environment: hackathon
         auto-activate-base: false
         
     # Step 3: Install pylint
@@ -48,4 +48,4 @@ jobs:
     # Step 5: Run main.py to check for reproducibility
     - name: Run main.py for reproducibility
       run: |
-        python main.py
+        python src/main.py

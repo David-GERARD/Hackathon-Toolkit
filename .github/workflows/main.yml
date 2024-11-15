@@ -1,0 +1,51 @@
+name: Code Quality and Reproducibility
+
+on:
+  push:
+    branches-ignore:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  code-quality:
+    name: Code Quality and Reproducibility
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Checkout code
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # Step 2: Set up Python and Conda
+    - name: Set up Python
+      uses: conda-incubator/setup-miniconda@v2
+      with:
+        miniforge-version: latest
+        environment-file: environment.yml
+        activate-environment: daps-hackathon
+        auto-activate-base: false
+        
+    # Step 3: Install pylint
+    - name: Install pylint
+      run: |
+        pip install pylint
+
+    # Step 4: Run pylint
+    - name: Run pylint
+      run: |
+        pylint **/*.py
+      continue-on-error: true
+    # Annotate pylint output to PR
+    - name: Annotate pylint results
+      if: ${{ failure() }}
+      uses: github/codeql-action/annotate@v2
+      with:
+        analysis-key: pylint
+        diagnostics-path: pylint-report.json
+
+    # Step 5: Run main.py to check for reproducibility
+    - name: Run main.py for reproducibility
+      run: |
+        python main.py

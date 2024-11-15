@@ -4,10 +4,7 @@ on:
   push:
     branches-ignore:
       - main
-  pull_request:
-    branches:
-      - main
-
+      
 jobs:
   code-quality:
     name: Code Quality and Reproducibility

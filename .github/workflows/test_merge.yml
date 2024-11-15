@@ -4,10 +4,7 @@ on:
   push:
     branches-ignore:
       - main
-  pull_request:
-    branches:
-      - main
-
+      
 jobs:
   code-quality:
     name: Code Quality and Reproducibility
@@ -38,6 +35,13 @@ jobs:
         pylint **/*.py
       continue-on-error: true
 
+    # Annotate pylint output to PR
+    - name: Annotate pylint results
+      if: ${{ failure() }}
+      uses: github/codeql-action/annotate@v2
+      with:
+        analysis-key: pylint
+        diagnostics-path: pylint-report.json
 
     # Step 5: Run main.py to check for reproducibility
     - name: Run main.py for reproducibility
@@ -47,6 +51,7 @@ jobs:
     # Step 6: Test Streamlit GUI
     - name: Test Streamlit GUI
       run: |
+        pip install streamlit
         streamlit run src/streamlit_GUI.py --headless
       env:
         STREAMLIT_SERVER_HEADLESS: true

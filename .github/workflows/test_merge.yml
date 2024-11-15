@@ -26,7 +26,7 @@ jobs:
         environment-file: env/environment.yml
         activate-environment: hackathon
         auto-activate-base: false
-        
+
     # Step 3: Install pylint
     - name: Install pylint
       run: |
@@ -37,6 +37,7 @@ jobs:
       run: |
         pylint **/*.py
       continue-on-error: true
+
     # Annotate pylint output to PR
     - name: Annotate pylint results
       if: ${{ failure() }}
@@ -49,3 +50,12 @@ jobs:
     - name: Run main.py for reproducibility
       run: |
         python src/main.py
+
+    # Step 6: Test Streamlit GUI
+    - name: Test Streamlit GUI
+      run: |
+        streamlit run src/streamlit_GUI.py --headless
+      env:
+        STREAMLIT_SERVER_HEADLESS: true
+        STREAMLIT_SERVER_PORT: 8501
+        STREAMLIT_BROWSER_GATHER_USAGE_STATS: false
